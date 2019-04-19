@@ -5,28 +5,52 @@ import scala.io.Source
 object Main {
 
   def main(args: Array[String]): Unit = {
-//    FileRead.readLine("data.txt")
-//    FileRead.readAll("data.txt")
-//    FileRead.filterLine("data.txt", _ == "A")
-//    FileWrite.writeFile("d.txt", "Hello")
+    //    FileRead.readLine("files/data.txt")
+    //    FileRead.readAll("files/data.txt")
+    //    FileRead.filterLine("files/data.txt", _ == "A")
+    //    FileRead.take("files/data.txt", 2)
+    //    FileRead.slice("files/data.txt", 1, 2)
+
+    //    FileWrite.writeFile("d.txt", "Hello")
   }
 
 }
 
 object FileRead {
   def readLine(fileName: String) = {
-    val s1 = Source.fromFile(fileName).getLines
-    s1.foreach(println)
+    val source = Source.fromFile(fileName)
+    source.getLines.toList.map(println)
+    source.close
   }
 
   def filterLine(fileName: String, filter: String => Boolean) = {
-    val s1 = Source.fromFile(fileName).getLines
-    s1.filter(filter).foreach(println)
+    val source = Source.fromFile(fileName)
+    source.getLines.toList.filter(filter).foreach(println)
+    source.close()
   }
 
   def readAll(fileName: String) = {
-    val s1 = Source.fromFile(fileName).mkString
-    println(s1)
+    val source = Source.fromFile(fileName)
+    println(source.mkString)
+    source.close()
+  }
+
+  def take(fileName: String, numOfLines: Int) = {
+    val source = Source.fromFile(fileName)
+    val iterator = source.getLines().take(numOfLines)
+    while (iterator.hasNext) {
+      println(iterator.next())
+    }
+    source.close()
+  }
+
+  def slice(fileName: String, from: Int, until: Int) = {
+    val source = Source.fromFile(fileName)
+    val iterator = source.getLines().slice(from, until)
+    while (iterator.hasNext) {
+      println(iterator.next())
+    }
+    source.close()
   }
 }
 
